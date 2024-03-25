@@ -21,6 +21,13 @@ namespace PlaywrightTest01
             });
         }
 
+        // How to enable debugging:
+        // $env:PWDEBUG=1
+        // How to see trace
+        // .\playwright.ps1 show-trace
+        // How to enable headless mode
+        // $env:HEADED="1"
+        
         [TearDown]
         public async Task TearDown()
         {
@@ -38,7 +45,7 @@ namespace PlaywrightTest01
         }
 
         [Test]
-        public async Task StartingPlaywright()
+        public async Task StartingPlaywrightTest()
         {
             await Page.GotoAsync("https://playwright.dev");
 
@@ -57,6 +64,21 @@ namespace PlaywrightTest01
             // Expects the URL to contain intro.
             await Expect(Page).ToHaveURLAsync(new Regex(".*intro"));
             
+        }
+
+        [Test]
+        public async Task LaunchBrowserIncognitoTest()
+        {
+ 
+            /*
+            * Slightly changed usage due to the following error. 
+            'IPlaywright' does not contain a definition for 'CreateAsync' and no accessible extension method 'CreateAsync' accepting a first argument of type 'IPlaywright' could be found (are you missing a using directive or an assembly reference?)CS1061
+            */
+            var brow = await Playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions{Headless=false});
+            var context = await brow.NewContextAsync();
+            var page = await context.NewPageAsync();
+            await page.GotoAsync("https://bing.com");
+            await context.CloseAsync();
         }
     }
 }

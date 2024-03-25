@@ -26,3 +26,10 @@ jobs:
             path: TestResults-${{ matrix.dotnet-version }}
           # Use always() to always run this step to publish test results when there are test failures
       if: ${{ always() }}
+    - name: Upload trace fiile
+      uses: actions/upload-artifact@v4
+      with:
+            name: test-trace
+            path: bin/Debug/net6.0/playwright-traces
+          # Use always() to always run this step to publish test results when there are test failures
+      if: ${{ always() }}

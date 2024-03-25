@@ -1,9 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Microsoft.Playwright;
-using Microsoft.Playwright.NUnit;
-using NUnit.Framework;
-namespace PlaywrightTest01
+﻿namespace PlaywrightTest01
 {
     [Parallelizable(ParallelScope.Self)]
     [TestFixture]
@@ -55,6 +50,7 @@ namespace PlaywrightTest01
             // create a locator
             var getStarted = Page.GetByRole(AriaRole.Link, new() { Name = "Get started" });
 
+
             // Expect an attribute "to be strictly equal" to the value.
             await Expect(getStarted).ToHaveAttributeAsync("href", "/docs/intro");
 
@@ -81,6 +77,33 @@ namespace PlaywrightTest01
             var page = await context.NewPageAsync();
             await page.GotoAsync("https://bing.com");
             await context.CloseAsync();
+        }
+
+         [Test]
+        public async Task OpenGoogleAndSearchTest()
+        {
+            await Page.GotoAsync("https://www.google.com");
+
+            // Expect a title "to contain" a substring.
+            await Expect(Page).ToHaveTitleAsync(new Regex("Google"));
+
+            await Page.FillAsync("[name='q']", "TestAutomationTV.com");
+            
+            // create a locator
+            var googleSearch = Page.GetByRole(AriaRole.Button, new() { Name = "Google Search" });
+            await googleSearch.ClickAsync();
+            
+            var searchResult = Page.GetByRole(AriaRole.Link, new() { Name = "Appium WinAppDriver C#" });            
+
+            await Expect(searchResult).ToBeVisibleAsync();
+
+            await searchResult.ClickAsync();
+
+            var addToCartButton = Page.GetByRole(AriaRole.Button, new() { Name = "Add to cart" });
+
+            await Expect(addToCartButton).ToBeVisibleAsync();
+
+            await Expect(Page).ToHaveURLAsync(new Regex("appium-winappdriver-automation-testing"));
         }
     }
 }

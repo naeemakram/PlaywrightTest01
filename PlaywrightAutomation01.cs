@@ -105,5 +105,19 @@
 
             await Expect(Page).ToHaveURLAsync(new Regex("appium-winappdriver-automation-testing"));
         }
+
+        [Test]
+        public async Task ToDosTest()
+        {
+           
+            await using var browser =await Playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions{Headless=false});
+            var context = await browser.NewContextAsync();
+            var myPage = await context.NewPageAsync();
+            await myPage.GotoAsync("https://demo.playwright.dev/todomvc");
+            await myPage.GetByPlaceholder("What needs to be done?").ClickAsync();
+            await myPage.GetByPlaceholder("What needs to be done?").FillAsync("Get some milk");
+            await myPage.GetByPlaceholder("What needs to be done?").PressAsync("Enter");
+            await Expect(myPage.GetByTestId("todo-title")).ToHaveTextAsync("Get some milk");
+        }
     }
 }

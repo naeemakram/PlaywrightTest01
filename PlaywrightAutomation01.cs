@@ -72,7 +72,7 @@
             */
             // how to run just this test
             // dotnet test --filter Name~LaunchBrowserIncognitoTest
-            var brow = await Playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions{Headless=false});
+            var brow = await Playwright.Chromium.LaunchAsync();
             var context = await brow.NewContextAsync();
             var page = await context.NewPageAsync();
             await page.GotoAsync("https://bing.com");
@@ -110,7 +110,7 @@
         public async Task ToDosTest()
         {
            
-            await using var browser =await Playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions{Headless=false});
+            await using var browser =await Playwright.Chromium.LaunchAsync();
             var context = await browser.NewContextAsync();
             var myPage = await context.NewPageAsync();
             await myPage.GotoAsync("https://demo.playwright.dev/todomvc");

@@ -25,3 +25,7 @@ Other than UI testing, you can also test APIs with Playwright.
 
 ### How to run tests with specific run settings file
 `dotnet test --settings:chromium.runsettings`
+
+## Important note about running tests via GitHub Actions/Azure etc.
+  Running on Ubuntu VMs is headless mode is supported by default.
+  If you wanna run non-headless mode you'll need to setup X GUI. Extra frills!

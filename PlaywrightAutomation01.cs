@@ -88,9 +88,11 @@
             await Expect(Page).ToHaveTitleAsync(new Regex("Google"));
 
             await Page.FillAsync("[name='q']", "TestAutomationTV.com");
-            
+            await Page.GetByLabel("Search", new() { Exact = true }).PressAsync("Tab");
+
             // create a locator
             var googleSearch = Page.GetByRole(AriaRole.Button, new() { Name = "Google Search" });
+
             await googleSearch.ClickAsync();
             
             var searchResult = Page.GetByRole(AriaRole.Link, new() { Name = "Appium WinAppDriver C#" });            
@@ -100,7 +102,7 @@
             await searchResult.ClickAsync();
 
             // Note: The following three steps fail due to captcha verification by Udemy :)
-            
+
             // var addToCartButton = Page.GetByRole(AriaRole.Button, new() { Name = "Add to cart" });
 
             // await Expect(addToCartButton).ToBeVisibleAsync();

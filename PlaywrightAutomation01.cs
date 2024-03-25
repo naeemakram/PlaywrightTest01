@@ -74,6 +74,8 @@ namespace PlaywrightTest01
             * Slightly changed usage due to the following error. 
             'IPlaywright' does not contain a definition for 'CreateAsync' and no accessible extension method 'CreateAsync' accepting a first argument of type 'IPlaywright' could be found (are you missing a using directive or an assembly reference?)CS1061
             */
+            // how to run just this test
+            // dotnet test --filter Name~LaunchBrowserIncognitoTest
             var brow = await Playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions{Headless=false});
             var context = await brow.NewContextAsync();
             var page = await context.NewPageAsync();

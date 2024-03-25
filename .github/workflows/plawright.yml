@@ -18,7 +18,7 @@ jobs:
     - name: Ensure browsers are installed
       run: pwsh bin/Debug/net6.0/playwright.ps1 install --with-deps
     - name: Run your tests
-      run: dotnet test --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
+      run: dotnet test --logger html --results-directory "TestResults-${{ matrix.dotnet-version }}"
     - name: Upload dotnet test results
       uses: actions/upload-artifact@v4
       with:

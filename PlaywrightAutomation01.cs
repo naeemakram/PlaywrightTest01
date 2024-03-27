@@ -113,15 +113,16 @@
         [Test]
         public async Task ToDosTest()
         {
-           
-            await using var browser =await Playwright.Chromium.LaunchAsync();
-            var context = await browser.NewContextAsync();
+            var context = await Browser.NewContextAsync();
             var myPage = await context.NewPageAsync();
             await myPage.GotoAsync("https://demo.playwright.dev/todomvc");
             await myPage.GetByPlaceholder("What needs to be done?").ClickAsync();
             await myPage.GetByPlaceholder("What needs to be done?").FillAsync("Get some milk");
             await myPage.GetByPlaceholder("What needs to be done?").PressAsync("Enter");
             await Expect(myPage.GetByTestId("todo-title")).ToHaveTextAsync("Get some milk");
+            var screenshotPath = $"screenshot{DateTime.Now.ToString("ddhhmmss")}.png";
+            Console.WriteLine($"Screenshot path: {screenshotPath}");
+            await myPage.ScreenshotAsync(new (){Path=screenshotPath});
         }
     }
 }

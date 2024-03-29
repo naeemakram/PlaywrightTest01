@@ -26,9 +26,14 @@ Other than UI testing, you can also test APIs with Playwright.
 ### How to run tests with specific run settings file
 `dotnet test --settings:chromium.runsettings`
 
-## Important note about running tests via GitHub Actions/Azure etc.
-  Running on Ubuntu VMs is headless mode is supported by default.
-  If you wanna run non-headless mode you'll need to setup X GUI. Extra frills!
+## Important note about running tests via GitHub Actions/Azure, etc.
+  Running on Ubuntu VMs is headless mode, which is supported by default.
+  To run non-headless mode, you must set up X GUI. Extra frills!
+
+## How to launch code-generator
+` .\bin\debug\net6.0\playwright.ps1 codegen google.com`
+## How to launch trace viewer
+`.\bin\Debug\net6.0\playwright show-trace .\bin\Debug\net6.0\playwright-traces\PlaywrightTest01.PlaywrightAutomation01.OpenGoogleAndSearchTest.zip`
 
 ## Note
 `--save-storage`

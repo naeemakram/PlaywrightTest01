@@ -5,6 +5,7 @@ using Microsoft.Playwright.NUnit;
 using Microsoft.Playwright;
 using NUnit.Framework;
 using FluentAssertions;
+using Newtonsoft.Json.Linq;
 
 namespace PlaywrightTests;
 
@@ -43,6 +44,7 @@ public class TestGitHubAPI : PlaywrightTest
         response.Ok.Should().BeTrue();
         var jsonResponse = await response.JsonAsync();
         Console.WriteLine(jsonResponse);
+        PrintResponse(JObject.Parse(jsonResponse.ToString()));
     }
 
     [Test]
@@ -54,5 +56,14 @@ public class TestGitHubAPI : PlaywrightTest
         response.Ok.Should().BeTrue();
         var jsonResponse = await response.JsonAsync();
         Console.WriteLine(jsonResponse);
+
+        PrintResponse(JObject.Parse(jsonResponse.ToString()));
     }
+
+    //https://www.deckofcardsapi.com/api/deck/<<deck_id>>/draw/?count=2
+    //https://www.deckofcardsapi.com/api/deck/new/draw/?count=2
+
+    private void PrintResponse(JObject jsonObj) =>
+        Console.WriteLine($"Result values: \r\nSuccess: {jsonObj.SelectToken(".success")}\r\ndeck_id: {jsonObj.SelectToken(".deck_id")}\r\nshuffled: {jsonObj.SelectToken(".shuffled")}\r\nremaining: {jsonObj.SelectToken(".remaining")}");
+    
 }

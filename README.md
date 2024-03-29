@@ -29,3 +29,7 @@ Other than UI testing, you can also test APIs with Playwright.
 ## Important note about running tests via GitHub Actions/Azure etc.
   Running on Ubuntu VMs is headless mode is supported by default.
   If you wanna run non-headless mode you'll need to setup X GUI. Extra frills!
+
+## Note
+`--save-storage`
+  With npx playwright codegen allows you to preserve authenticated state by saving cookies and localStorage. Super handy for recording tests with common authentication steps!

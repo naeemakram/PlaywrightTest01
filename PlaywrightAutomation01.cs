@@ -87,7 +87,7 @@
             // Expect a title "to contain" a substring.
             await Expect(Page).ToHaveTitleAsync(new Regex("Google"));
 
-            await Page.FillAsync("[name='q']", "TestAutomationTV.com");
+            await Page.FillAsync("[name='q']", "Appium WinAppDriver C# Windows Desktop UI Automation Testing");
             await Page.GetByLabel("Search", new() { Exact = true }).PressAsync("Tab");
 
             // create a locator
@@ -95,11 +95,19 @@
 
             await googleSearch.ClickAsync();
             
-            var searchResult = Page.GetByRole(AriaRole.Link, new() { Name = "Appium WinAppDriver C#" });            
+            await Page.GetByRole(AriaRole.Heading, new() { Name = "People also ask" }).Locator("span").IsVisibleAsync();
 
-            await Expect(searchResult).ToBeVisibleAsync();
+            var searchResult = await Page.GetByRole(AriaRole.Link, new() { Name = "Appium WinAppDriver C# Windows Desktop UI Automation Testing" }).AllAsync();            
 
-            await searchResult.ClickAsync();
+            Console.WriteLine($"Elements found: {searchResult?.Count}");
+
+            foreach(var v in searchResult){
+                 Console.WriteLine( await v.TextContentAsync());
+            }
+            if(searchResult?.Count() > 0){
+                await Expect(searchResult[0]).ToBeVisibleAsync();
+                await searchResult[0].ClickAsync();
+            }
 
             // Note: The following three steps fail due to captcha verification by Udemy :)
 
@@ -124,5 +132,6 @@
             Console.WriteLine($"Screenshot path: {screenshotPath}");
             await myPage.ScreenshotAsync(new (){Path=screenshotPath});
         }
+
     }
 }

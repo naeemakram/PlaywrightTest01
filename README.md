@@ -38,3 +38,6 @@ Other than UI testing, you can also test APIs with Playwright.
 ## Note
 `--save-storage`
   With npx playwright codegen allows you to preserve authenticated state by saving cookies and localStorage. Super handy for recording tests with common authentication steps!
+
+  ## Enable verbose for API testing
+  $env:DEBUG="pw:api"

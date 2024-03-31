@@ -63,6 +63,37 @@ public class TestGitHubAPI : PlaywrightTest
     //https://www.deckofcardsapi.com/api/deck/<<deck_id>>/draw/?count=2
     //https://www.deckofcardsapi.com/api/deck/new/draw/?count=2
 
+    [Test]
+    public async Task DrawFromNewDeckOfCards()
+    {
+        var responseNewDeck = await Request.GetAsync("/api/deck/new/shuffle/?deck_count=1");
+        responseNewDeck.Ok.Should().BeTrue();
+        var jsonResponse = await responseNewDeck.JsonAsync();
+        Console.WriteLine(jsonResponse);
+        
+        var newDeckJSON = JObject.Parse(jsonResponse.ToString());
+        System.Threading.Thread.Sleep(3000);// Deck of Cards is a free public API, we must let it breathe. 
+        var drawResponsee = await Request.GetAsync($"/api/deck/{newDeckJSON.SelectToken(".deck_id")}/draw/?count=3");
+        drawResponsee.Ok.Should().BeTrue();
+        Console.WriteLine($"Status:{drawResponsee.Status}");
+        
+        var jsonDrawResponse = JObject.Parse((await drawResponsee.JsonAsync()).ToString());
+        
+        Console.WriteLine(jsonDrawResponse);
+
+        (jsonDrawResponse.SelectToken(".cards") as JArray).Count.Should().Be(3);
+
+        jsonDrawResponse.SelectToken(".remaining").Value<int>().Should().Be(49);
+        //deck_id
+
+        /*
+        //  Example: 
+        var json = "{\"Name\":\"Alice\"}";
+        var customer = JsonSerializer.Deserialize<object>(json);
+        Console.WriteLine(customer); // Output: { Name = Alice }
+        */
+    }
+
     private void PrintResponse(JObject jsonObj) =>
         Console.WriteLine($"Result values: \r\nSuccess: {jsonObj.SelectToken(".success")}\r\ndeck_id: {jsonObj.SelectToken(".deck_id")}\r\nshuffled: {jsonObj.SelectToken(".shuffled")}\r\nremaining: {jsonObj.SelectToken(".remaining")}");
     

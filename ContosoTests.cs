@@ -78,9 +78,19 @@
             var page = await context.NewPageAsync();
             await page.GotoAsync("https://bing.com");
             await context.CloseAsync();
+
+
         }
 
-        
+        [Test]
+        public async Task CheckBoxTest()
+        {
+            await Page.GotoAsync("https://cloudtesting.contosotraders.com/list/controllers");
+            await Page.Locator("[name='brand6']").CheckAsync();
+            await Expect(Page.Locator("[name='brand6']")).ToBeCheckedAsync();
+            await Expect(Page.GetByText("No Products Found")).ToBeVisibleAsync();
+
+        }
 
     }
 }
